@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>📊 छात्र Budget Tracker</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f7f1;
+      color: #333;
+    }
+
+    /* Navbar */
+    .navbar {
+      background-color: #f77f00; /* Orange */
+      color: white;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .navbar h1 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+    .navbar nav a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .navbar nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Main Section */
+    .main {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 30px;
+      gap: 20px;
+    }
+
+    .image-block {
+      flex: 1 1 350px;
+      background: url('https://images.unsplash.com/photo-1600378505980-b3d9cf63d46d?auto=format&fit=crop&w=800&q=60') center/cover no-repeat;
+      border-radius: 12px;
+      min-height: 300px;
+      width: 100%;
+    }
+
+    .content-block {
+      flex: 2 1 400px;
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .content-block h2 {
+      color: #d62828;
+      margin-top: 0;
+    }
+
+    .content-block p {
+      line-height: 1.6;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: 0.3s;
+      text-decoration: none;
+      color: #003366;
+      font-weight: bold;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    .card img {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    /* Responsive Styles */
+    @media(max-width: 768px) {
+      .main {
+        flex-direction: column;
+        padding: 15px;
+      }
+
+      .image-block {
+        min-height: 200px;
+      }
+
+      .content-block {
+        padding: 15px;
+      }
+
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .navbar nav a {
+        margin: 10px 0 0 0;
+        display: block;
+      }
+    }
+
+    @media(max-width: 600px) {
+      .card {
+        padding: 15px;
+      }
+
+      .card img {
+        width: 48px;
+        height: 48px;
+      }
+
+      .card p {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <h1 contenteditable="true">📊 छात्र Budget Tracker</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Main Section -->
+  <section class="main">
+    <!-- Image Block -->
+    <div class="image-block">
+        <img src="https://png.pngtree.com/png-clipart/20241013/original/pngtree-happy-school-kids-clipart-illustration-diverse-children-with-backpacks-png-image_16302321.png" alt="Village" style="width:100%; height:100%; border-radius: 12px;"/>
+    </div>
+
+    <!-- Content Block -->
+    <div class="content-block">
+      <h2>Simple Budget App for College Students</h2>
+      <p>
+        The Student Budget Tracker is a helpful and easy-to-use app designed to assist college and school students in managing their finances. 
+        Whether it's tracking tuition fees, hostel expenses, exam fees, or daily spending on food and travel — this app keeps everything organized.
+      </p>
+      <p>
+        With this app, you get: <br/>
+        ✅ Option to add roommates or classmates <br/>
+        ✅ Goal-based savings like exam fees or gadgets <br/>
+        ✅ Progress charts for visual motivation <br/>
+        ✅ Weekly/monthly reminders to stay on budget
+      </p>
+      <p>
+        Budgeting shouldn’t be a city luxury – <strong>Every student, everywhere</strong> should have the tools to save smart.
+      </p>
+    </div>
+  </section>
+
+  <!-- Cards Section -->
+  <div class="container">
+    <a href="pocketmoneytrack.html" class="card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTek6-z2AAJgbjchCZj4vOHgl-g_3qVcQJQPw&s" alt="pocket money" />
+      <p>Pocket Money</p>
+    </a>
+
+    <a href="semester-wise-budget.html" class="card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8RnwR32qkjd7-eCcvgazDi5EQZeWueGmeqg&s" alt="semester-wise" />
+      <p>Semester Planning</p>
+    </a>
+
+    <a href="shared-budget.html" class="card">
+      <img src="https://t3.ftcdn.net/jpg/01/27/77/58/360_F_127775822_dMDhxA5yBCxjoGmkIUj8qljgZUbA1YkV.jpg" alt="shared" />
+      <p>Shared Expenses</p>
+    </a>
+
+    <a href="finsage-learnfinance.html" class="card">
+      <img src="https://static.vecteezy.com/system/resources/previews/008/359/439/non_2x/collection-colored-thin-icon-of-financial-learning-subject-money-coin-calculator-book-graduated-hat-learning-and-education-concept-illustration-vector.jpg" alt="Hall Ticket" />
+      <p>FinSage<br/>Learn Finance</p>
+    </a>
+  </div>
+   <!-- Footer -->
+   <footer style="background-color:#003366; color:white; text-align:center; padding:25px 15px; margin-top:40px;">
+    <p style="margin: 5px 0;"><strong>छात्र Budget Tracker</strong> is a project by <strong>XYZ Tech Hub</strong>, focused on empowering student financial literacy across India.</p>
+    <p style="margin: 5px 0;">For collaborations, inquiries, or support, reach out to us at <a href="mailto:support@xyztechhub.org" style="color: #f77f00; text-decoration: none;">support@xyztechhub.org</a></p>
+    <p style="margin: 5px 0;">Version 1.0 | Designed for educational and non-commercial use</p>
+    <p style="margin-top: 10px; font-size: 13px; color: #ddd;">&copy; 2025 XYZ Tech Hub. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

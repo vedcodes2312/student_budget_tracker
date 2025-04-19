@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>📊 छात्र Budget Tracker</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f7f1;
+      color: #333;
+    }
+
+    .navbar {
+      background-color: #f77f00;
+      color: white;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .navbar h1 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+
+    .navbar nav a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .navbar nav a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    input, select, button {
+  padding: 8px 12px;
+  font-size: 16px;
+  line-height: 1.4;
+  height: 45px;
+  max-height: 45px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  flex: 1 1 auto;
+}
+
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    canvas {
+      max-width: 100%;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+
+    #downloadBtn {
+      background-color: #f77f00;
+      color: white;
+    }
+
+    #downloadChartBtn {
+      background-color: #2a9d8f;
+      color: white;
+    }
+
+    @media(max-width: 768px) {
+      form {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .btn-group {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .container {
+        padding: 15px;
+      }
+
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 15px;
+        gap: 10px;
+      }
+
+      input, select, button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h1 contenteditable="true">📊 छात्र Budget Tracker</h1>
+    <nav>
+      <a href="home-page.html">Home</a>
+      <a href="#">Contact</a>
+    </nav>
+  </div>
+
+  <div class="container">
+    <h1>Pocket Money & Part-Time Income Tracker</h1>
+
+    <!-- Income Form -->
+    <form id="incomeForm">
+      <input type="text" id="source" placeholder="Income Source (e.g., Scholarship)" required />
+      <input type="number" id="amount" placeholder="Amount (₹)" required />
+      <select id="month">
+        <option value="January">Jan</option>
+        <option value="February">Feb</option>
+        <option value="March">Mar</option>
+        <option value="April">Apr</option>
+        <option value="May">May</option>
+        <option value="June">Jun</option>
+        <option value="July">Jul</option>
+        <option value="August">Aug</option>
+        <option value="September">Sep</option>
+        <option value="October">Oct</option>
+        <option value="November">Nov</option>
+        <option value="December">Dec</option>
+      </select>
+      <button type="submit">Add</button>
+    </form>
+
+    <!-- Income Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Amount (₹)</th>
+          <th>Month</th>
+        </tr>
+      </thead>
+      <tbody id="incomeTable"></tbody>
+    </table>
+
+    <!-- Buttons -->
+    <div class="btn-group">
+      <button id="downloadBtn">⬇️ Download Report (CSV)</button>
+      <button id="downloadChartBtn">🖼️ Download Chart as PNG</button>
+    </div>
+
+    <!-- Income Chart -->
+    <canvas id="incomeChart"></canvas>
+  </div>
+
+  <script>
+    const form = document.getElementById("incomeForm");
+    const incomeTable = document.getElementById("incomeTable");
+    const incomeChartCtx = document.getElementById("incomeChart").getContext("2d");
+
+    const monthlyIncome = {
+      January: 0, February: 0, March: 0, April: 0, May: 0, June: 0,
+      July: 0, August: 0, September: 0, October: 0, November: 0, December: 0,
+    };
+
+    const chart = new Chart(incomeChartCtx, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(monthlyIncome),
+        datasets: [{
+          label: 'Monthly Income (₹)',
+          data: Object.values(monthlyIncome),
+          backgroundColor: 'rgba(75, 192, 192, 0.6)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const source = document.getElementById("source").value;
+      const amount = parseFloat(document.getElementById("amount").value);
+      const month = document.getElementById("month").value;
+
+      // Add row to table
+      const row = document.createElement("tr");
+      row.innerHTML = `<td>${source}</td><td>₹${amount}</td><td>${month}</td>`;
+      incomeTable.appendChild(row);
+
+      // Update chart
+      monthlyIncome[month] += amount;
+      chart.data.datasets[0].data = Object.values(monthlyIncome);
+      chart.update();
+
+      form.reset();
+    });
+
+    // CSV download
+    document.getElementById("downloadBtn").addEventListener("click", () => {
+      const rows = [["Source", "Amount (₹)", "Month"]];
+      const tableRows = incomeTable.querySelectorAll("tr");
+
+      tableRows.forEach(tr => {
+        const cols = tr.querySelectorAll("td");
+        const row = Array.from(cols).map(td => td.textContent.trim());
+        rows.push(row);
+      });
+
+      const csvContent = rows.map(e => e.join(",")).join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", "Income_Report.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    // PNG chart download
+    document.getElementById("downloadChartBtn").addEventListener("click", () => {
+      const link = document.createElement('a');
+      link.download = 'Monthly_Income_Chart.png';
+      link.href = chart.toBase64Image();
+      link.click();
+    });
+  </script>
+    <!-- Footer -->
+    <footer style="background-color:#003366; color:white; text-align:center; padding:25px 15px; margin-top:40px;">
+      <p style="margin: 5px 0;"><strong>छात्र Budget Tracker</strong> is a project by <strong>XYZ Tech Hub</strong>, focused on empowering student financial literacy across India.</p>
+      <p style="margin: 5px 0;">For collaborations, inquiries, or support, reach out to us at <a href="mailto:support@xyztechhub.org" style="color: #f77f00; text-decoration: none;">support@xyztechhub.org</a></p>
+      <p style="margin: 5px 0;">Version 1.0 | Designed for educational and non-commercial use</p>
+      <p style="margin-top: 10px; font-size: 13px; color: #ddd;">&copy; 2025 XYZ Tech Hub. All rights reserved.</p>
+    </footer>
+  
+</body>
+</html>

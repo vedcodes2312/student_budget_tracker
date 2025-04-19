@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Shared Budget Tool</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+     .navbar {
+      background-color: #f77f00; /* Orange */
+      color: white;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .navbar h1 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+    .navbar nav a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .navbar nav a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navbar -->
+  <div class="navbar">
+    <h1 contenteditable="true">📊 छात्र Budget Tracker</h1>
+    <nav>
+      <a href="home-page.html">Home</a>
+      <a href="#">Contact</a>
+    </nav>
+  </div>
+  <div class="max-w-5xl mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6">🎓 Student Shared Budget Tool</h1>
+
+    <!-- Input Section -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label class="block text-sm font-medium">Expense Description</label>
+        <input id="desc" type="text" class="mt-1 p-2 border rounded w-full">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Amount (₹)</label>
+        <input id="amount" type="number" class="mt-1 p-2 border rounded w-full">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Paid By</label>
+        <input id="paidBy" type="text" class="mt-1 p-2 border rounded w-full">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Split Between (comma-separated names)</label>
+        <input id="splitBetween" type="text" class="mt-1 p-2 border rounded w-full">
+      </div>
+
+      <div class="md:col-span-2">
+        <button onclick="addExpense()" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full">Add Expense</button>
+      </div>
+    </div>
+
+    <!-- Alerts -->
+    <div id="alert" class="mt-4 hidden bg-red-100 text-red-800 p-2 rounded"></div>
+
+    <!-- Expense List -->
+    <div class="mt-8">
+      <h2 class="text-xl font-semibold mb-4">📜 Expense History</h2>
+      <ul id="expenseList" class="space-y-3"></ul>
+    </div>
+
+    <!-- Budget Cap Alert -->
+    <div class="mt-8">
+      <label class="block text-sm font-medium">Project Budget Cap (₹)</label>
+      <input id="budgetCap" type="number" class="mt-1 p-2 border rounded w-full">
+    </div>
+
+    <div class="mt-2 text-red-600" id="budgetWarning"></div>
+
+    <!-- Export Option -->
+    <div class="mt-6">
+      <button onclick="exportData()" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">📤 Export Summary</button>
+    </div>
+  </div>
+
+  <script>
+    let expenses = [];
+
+    function addExpense() {
+      const desc = document.getElementById("desc").value;
+      const amount = parseFloat(document.getElementById("amount").value);
+      const paidBy = document.getElementById("paidBy").value;
+      const splitBetween = document.getElementById("splitBetween").value.split(',').map(s => s.trim());
+
+      if (!desc || isNaN(amount) || !paidBy || splitBetween.length === 0) {
+        showAlert("Please fill out all fields correctly.");
+        return;
+      }
+
+      const eachShare = amount / splitBetween.length;
+
+      expenses.push({ desc, amount, paidBy, splitBetween, eachShare });
+      renderExpenses();
+      clearInputs();
+      checkBudgetCap();
+    }
+
+    function renderExpenses() {
+      const list = document.getElementById("expenseList");
+      list.innerHTML = "";
+      expenses.forEach((e, index) => {
+        const item = document.createElement("li");
+        item.className = "bg-white p-3 border rounded shadow";
+        item.textContent = `${e.paidBy} paid ₹${e.amount} for "${e.desc}" split among: ${e.splitBetween.join(", ")} (₹${e.eachShare.toFixed(2)} each)`;
+        list.appendChild(item);
+      });
+    }
+
+    function clearInputs() {
+      document.getElementById("desc").value = "";
+      document.getElementById("amount").value = "";
+      document.getElementById("paidBy").value = "";
+      document.getElementById("splitBetween").value = "";
+    }
+
+    function showAlert(msg) {
+      const alert = document.getElementById("alert");
+      alert.textContent = msg;
+      alert.classList.remove("hidden");
+      setTimeout(() => alert.classList.add("hidden"), 3000);
+    }
+
+    function checkBudgetCap() {
+      const cap = parseFloat(document.getElementById("budgetCap").value);
+      const total = expenses.reduce((sum, e) => sum + e.amount, 0);
+      const warning = document.getElementById("budgetWarning");
+      if (!isNaN(cap) && total > cap * 0.8) {
+        warning.textContent = `⚠️ You've crossed 80% of the project budget limit (₹${cap}). Total spent: ₹${total}`;
+      } else {
+        warning.textContent = "";
+      }
+    }
+
+    function exportData() {
+      const data = expenses.map(e => `${e.paidBy},₹${e.amount},${e.desc},${e.splitBetween.join("|")}`).join("\n");
+      const blob = new Blob([data], { type: "text/csv" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "shared_expenses.csv";
+      link.click();
+    }
+  </script>
+    <!-- Footer -->
+    <footer style="background-color:#003366; color:white; text-align:center; padding:25px 15px; margin-top:40px;">
+      <p style="margin: 5px 0;"><strong>छात्र Budget Tracker</strong> is a project by <strong>XYZ Tech Hub</strong>, focused on empowering student financial literacy across India.</p>
+      <p style="margin: 5px 0;">For collaborations, inquiries, or support, reach out to us at <a href="mailto:support@xyztechhub.org" style="color: #f77f00; text-decoration: none;">support@xyztechhub.org</a></p>
+      <p style="margin: 5px 0;">Version 1.0 | Designed for educational and non-commercial use</p>
+      <p style="margin-top: 10px; font-size: 13px; color: #ddd;">&copy; 2025 XYZ Tech Hub. All rights reserved.</p>
+    </footer>
+  
+</body>
+</html>
+

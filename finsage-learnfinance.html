@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finance Terms Hover Cards</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    #chatbot-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    #chatbox {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 300px;
+      height: 400px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      font-family: sans-serif;
+    }
+
+    #user-input {
+      display: flex;
+      border-top: 1px solid #eee;
+    }
+
+    #user-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+
+    #user-input button {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+
+    .bot, .user {
+      margin: 5px 0;
+      padding: 8px 12px;
+      border-radius: 16px;
+      max-width: 80%;
+    }
+
+    .bot {
+      background-color: #f1f5f9;
+      align-self: flex-start;
+    }
+
+    .user {
+      background-color: #4f46e5;
+      color: white;
+      align-self: flex-end;
+    }
+    .navbar {
+     background-color: #f77f00; /* Orange */
+     color: white;
+     padding: 15px 25px;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     flex-wrap: wrap;
+   }
+   .navbar h1 {
+     margin: 0;
+     font-size: 1.5em;
+   }
+   .navbar nav a {
+     color: white;
+     margin-left: 20px;
+     text-decoration: none;
+     font-weight: bold;
+   }
+   .navbar nav a:hover {
+     text-decoration: underline;
+   }
+ </style>
+</head>
+<body>
+    <!-- Navbar -->
+  <div class="navbar">
+    <h1 contenteditable="true">📊 छात्र Budget Tracker</h1>
+    <nav>
+      <a href="home-page.html">Home</a>
+      <a href="#">Contact</a>
+    </nav>
+  </div>
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8 text-center text-indigo-700">Basic Finance Terminologies</h1>
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      
+      <!-- Card Template -->
+      <div class="group relative bg-white p-6 rounded-2xl shadow-lg overflow-hidden hover:bg-indigo-600 transition-all duration-300">
+        <h2 class="text-xl font-semibold text-indigo-700 group-hover:text-white">Risk</h2>
+        <p class="text-gray-600 mt-2 opacity-0 group-hover:opacity-100 group-hover:text-white transition-opacity duration-300">
+          The possibility of losing money on an investment or not achieving expected returns.
+        </p>
+      </div>
+
+      <div class="group relative bg-white p-6 rounded-2xl shadow-lg overflow-hidden hover:bg-indigo-600 transition-all duration-300">
+        <h2 class="text-xl font-semibold text-indigo-700 group-hover:text-white">Investment</h2>
+        <p class="text-gray-600 mt-2 opacity-0 group-hover:opacity-100 group-hover:text-white transition-opacity duration-300">
+          The act of allocating money to assets like stocks, bonds, or real estate to generate income or profit.
+        </p>
+      </div>
+
+      <div class="group relative bg-white p-6 rounded-2xl shadow-lg overflow-hidden hover:bg-indigo-600 transition-all duration-300">
+        <h2 class="text-xl font-semibold text-indigo-700 group-hover:text-white">Savings</h2>
+        <p class="text-gray-600 mt-2 opacity-0 group-hover:opacity-100 group-hover:text-white transition-opacity duration-300">
+          Money that is set aside for future use instead of spending immediately.
+        </p>
+      </div>
+
+      <div class="group relative bg-white p-6 rounded-2xl shadow-lg overflow-hidden hover:bg-indigo-600 transition-all duration-300">
+        <h2 class="text-xl font-semibold text-indigo-700 group-hover:text-white">Mutual Funds</h2>
+        <p class="text-gray-600 mt-2 opacity-0 group-hover:opacity-100 group-hover:text-white transition-opacity duration-300">
+          Investment vehicles that pool money from many investors to invest in a diversified portfolio.
+        </p>
+      </div>
+
+      <div class="group relative bg-white p-6 rounded-2xl shadow-lg overflow-hidden hover:bg-indigo-600 transition-all duration-300">
+        <h2 class="text-xl font-semibold text-indigo-700 group-hover:text-white">Policies</h2>
+        <p class="text-gray-600 mt-2 opacity-0 group-hover:opacity-100 group-hover:text-white transition-opacity duration-300">
+          Financial agreements like insurance or retirement plans that define protection or benefits.
+        </p>
+      </div>
+
+      <div class="group relative bg-white p-6 rounded-2xl shadow-lg overflow-hidden hover:bg-indigo-600 transition-all duration-300">
+        <h2 class="text-xl font-semibold text-indigo-700 group-hover:text-white">PPF</h2>
+        <p class="text-gray-600 mt-2 opacity-0 group-hover:opacity-100 group-hover:text-white transition-opacity duration-300">
+          Public Provident Fund — a government-backed long-term savings scheme with tax benefits.
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- <iframe src="https://youtu.be/AkMTxMN7res?si=psDmDKBh7832hCVT" width="560" height="315" frameborder="0" allowfullscreen></iframe> -->
+  <button id="chatbot-btn">💬</button>
+
+<div id="chatbox">
+  <div id="messages"></div>
+  <div id="user-input">
+    <input type="text" id="input" placeholder="Ask me something..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script src="chatbot.js"></script>
+<script>
+    window.onload = function() {
+      const dfMessenger = document.createElement("df-messenger");
+      dfMessenger.setAttribute("project-id", "AIzaSyB-iqKMYnKRCqBTKCyKC3sgpwDYVLkQwtg");
+      dfMessenger.setAttribute("agent-id", "YOUR_AGENT_ID"); // optional
+      dfMessenger.setAttribute("language-code", "en");
+      document.body.appendChild(dfMessenger);
+    }
+  </script>
+  <df-messenger
+  project-id="AIzaSyB-iqKMYnKRCqBTKCyKC3sgpwDYVLkQwtg"
+  language-code="en"
+></df-messenger>
+
+<!-- <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script> -->
+  
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <!-- Footer -->
+    <footer style="background-color:#003366; color:white; text-align:center; padding:25px 15px; margin-top:40px;">
+      <p style="margin: 5px 0;"><strong>छात्र Budget Tracker</strong> is a project by <strong>XYZ Tech Hub</strong>, focused on empowering student financial literacy across India.</p>
+      <p style="margin: 5px 0;">For collaborations, inquiries, or support, reach out to us at <a href="mailto:support@xyztechhub.org" style="color: #f77f00; text-decoration: none;">support@xyztechhub.org</a></p>
+      <p style="margin: 5px 0;">Version 1.0 | Designed for educational and non-commercial use</p>
+      <p style="margin-top: 10px; font-size: 13px; color: #ddd;">&copy; 2025 XYZ Tech Hub. All rights reserved.</p>
+    </footer>
+  
+  
+</body>
+</html>
